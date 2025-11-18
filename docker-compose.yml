@@ -44,17 +44,17 @@ services:
     networks:
       - spring-ms
 
-#  user-service:
-#    build: ./user-service
-#    container_name: user-service
-#    depends_on:
-#      - eureka
-#      - config-server
-#    environment:
-#      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
-#      - EUREKA_SERVER_URL=http://eureka:8761/eureka/
-#    networks:
-#      - spring-ms
+  user-service:
+    build: ./user-service
+    container_name: user-service
+    depends_on:
+      - eureka
+      - config-server
+    environment:
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+      - EUREKA_SERVER_URL=http://eureka:8761/eureka/
+    networks:
+      - spring-ms
 
   transaction:
     build:
