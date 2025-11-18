@@ -3,16 +3,21 @@ version: "3.9"
 services:
 
   config-server:
-    build: ./config-server
+    build:
+      context: ./config-server
+      dockerfile: Dockerfile
     container_name: config-server
-    port:
+    ports:
       - "8888:8888"
     environment:
-      - GIT_URI=https://github.com/Hardik-2019/splitwise-clone.git/config
+      - spring.cloud.config.server.git.uri=https://github.com/Hardik-2019/splitwise-clone.git
+      - spring.cloud.config.server.git.search-paths=config
     networks:
       - spring-ms
   eureka:
-    build: ./eureka
+    build:
+      context: ./eureka
+      dockerfile: Dockerfile
     container_name: eureka-server
     ports:
       - "8761:8761"
@@ -24,7 +29,9 @@ services:
       - spring-ms
 
   gateway:
-    build: ./gateway
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
     container_name: api-gateway
     ports:
       - "8080:8080"
@@ -37,20 +44,22 @@ services:
     networks:
       - spring-ms
 
-  user-service:
-    build: ./user-service
-    container_name: user-service
-    depends_on:
-      - eureka
-      - config-server
-    environment:
-      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
-      - EUREKA_SERVER_URL=http://eureka:8761/eureka/
-    networks:
-      - spring-ms
+#  user-service:
+#    build: ./user-service
+#    container_name: user-service
+#    depends_on:
+#      - eureka
+#      - config-server
+#    environment:
+#      - SPRING_CONFIG_IMPORT=optional:configserver:http://config-server:8888
+#      - EUREKA_SERVER_URL=http://eureka:8761/eureka/
+#    networks:
+#      - spring-ms
 
   transaction:
-    build: ./transaction
+    build:
+      context: ./transaction
+      dockerfile: Dockerfile
     container_name: transaction
     depends_on:
       - eureka
