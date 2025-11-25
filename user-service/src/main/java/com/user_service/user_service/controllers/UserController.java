@@ -9,4 +9,8 @@ public class UserController {
     public String sayhello(){
         return "hello jaswanth";
     }
+    @GetMapping("/test")
+    public String test(){
+        return "Gateway done";
+    }
 }
